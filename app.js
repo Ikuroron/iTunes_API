@@ -1,22 +1,26 @@
 const API_KEY = 'AIzaSyBz7YdoVfisioa6-Php0HEYYHjU-kz4O50';
 
 // 検索結果１件を表示するカードの雛形
-const Card = ({ src, title, description }) => `
+const Card = ({ src, title, description, videoId }) => `
     <div class="col-4 mb-5">
-        <div class="card">
-            <img src="${src}" class="card-img-top" alt="...">
-            <div class="card-body">
-            <h5 class="card-title">${title}</h5>
-            <p class="card-text">${description}</p>
+        <a href="https://www.youtube.com/watch?v=${videoId}" target="_blank">
+            <div class="card">
+                <img src="${src}" class="card-img-top" alt="...">
+                <div class="card-body">
+                <h5 class="card-title">${title}</h5>
+                <p class="card-text">${description}</p>
+                </div>
             </div>
-        </div>
+        </a>
     </div>
 `;
 
 $('#search-btn').on('click', () => {
-
     
 
+    // サムネイル表示をクリア
+    $("#results").empty();
+    
     // 検索ワードの取得
     const word = $('#search-word').val()
 
@@ -37,22 +41,25 @@ $('#search-btn').on('click', () => {
             let url = response.items[i].snippet.thumbnails.high.url
             let titleText = response.items[i].snippet.title
             let descriptionText = response.items[i].snippet.description
+            let id = response.items[i].id.videoId
 
-
+            console.log(id)
 
             $('#results').append(
-                Card({ src: url, title: titleText, description: descriptionText,
+                Card({ src: url, title: titleText, description: descriptionText, videoId: id
             }));
 
-            // console.log(array)
+
         }
+
+
 
 
 
     }).fail((error) => {
         console.log(error)
-
-
     })
+
+    
 
 })
