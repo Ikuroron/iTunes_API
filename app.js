@@ -32,8 +32,6 @@ $('#search-btn').on('click', () => {
             term: word,
             country: 'jp',
             maxResults: '50',
-
-
         }
         
     }).done((response) => {
@@ -42,7 +40,14 @@ $('#search-btn').on('click', () => {
             let titleText = response.results[i].collectionName
             let artistText = response.results[i].artistName
             let id = response.results[i].collectionViewUrl
-            $('#results').append(Card({src: url, title: titleText, artist: artistText, musicId: id}));
+
+            // let url = response.results[i].artworkUrl100;
+            let convertedUrl = url.replace(/100/g, '600');
+            
+
+            console.log(convertedUrl);
+
+            $('#results').append(Card({src: convertedUrl, title: titleText, artist: artistText, musicId: id}));
 
             console.log(url)
         }
